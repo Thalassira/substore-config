@@ -1,9 +1,9 @@
 function main(config) {
   config = config || {};
 
-  // Mihomo / Clash Party 精简维护版：
+  // Mihomo / Clash Party 保留 DNS 版：
   // - 保留：节点精确去重、同名重命名、策略组重名保护、地区分类、住宅 SOCKS 链式代理。
-  // - 保留：AI / Gemini / Google / YouTube 等核心分流、TUN、Sniffer、Fake-IP、双层 DNS。
+  // - 保留：AI / Gemini / Google / YouTube 等核心分流、TUN、Sniffer；DNS 沿用输入配置。
   // - 保留：有住宅 SOCKS 时才显示“机场入口”；入口仅接受指定 🍃/🌏 + 美国/美國/香港 节点。
   // - 精简：移除 AnyTLS No-SNI 兼容补丁、自动 Chrome TLS 指纹、MetaCubeXD 下载、
   //         unified-delay，以及大量不再单独控制的低频 RULE-SET。
@@ -370,65 +370,7 @@ function main(config) {
     "strict-route": true
   };
 
-  config.dns = {
-    enable: true,
-    ipv6: false,
-    "enhanced-mode": "fake-ip",
-    "fake-ip-range": "198.18.0.1/16",
-    "fake-ip-filter-mode": "blacklist",
-    "fake-ip-filter": [
-      // 局域网 / 本地域名保持真实解析。
-      "+.lan",
-      "+.local",
-      "+.market.xiaomi.com",
-
-      // Sub-Store / 远程脚本兼容：
-      // 这些地址常由 Sub-Store、Clash Party 或 Mihomo 自身直接拉取。
-      // 若返回 198.18.x.x Fake-IP，而拉取进程没有经过当前 TUN，
-      // 会出现 connect ETIMEDOUT 198.18.x.x:443。
-      "sub-store.vercel.app",
-      "raw.githubusercontent.com",
-      "gist.githubusercontent.com",
-      "objects.githubusercontent.com",
-      "github-releases.githubusercontent.com",
-      "codeload.github.com",
-      "api.github.com",
-      "cdn.jsdelivr.net",
-      "fastly.jsdelivr.net"
-
-      // 如果你使用自建 Sub-Store 域名，例如 sub.example.com，
-      // 请在这里额外加入：
-      // "sub.example.com"
-      // 或需要排除整个子域时：
-      // "+.example.com"
-    ],
-    "prefer-h3": false,
-    "respect-rules": false,
-    "default-nameserver": [
-      "tls://223.5.5.5",
-      "tls://223.6.6.6"
-    ],
-    // 节点自身域名解析：使用可直连的国内 DoH，避免节点域名解析形成循环依赖。
-    "proxy-server-nameserver": [
-      "https://doh.pub/dns-query",
-      "https://dns.alidns.com/dns-query"
-    ],
-
-    // 默认代理 DNS：两路境外 DoH 都通过 Proxy，避免单点故障。
-    nameserver: [
-      "https://cloudflare-dns.com/dns-query#Proxy",
-      "https://dns.google/dns-query#Proxy"
-    ],
-
-    // DIRECT 流量使用独立直连 DNS，不依赖上面的代理 DNS。
-    "direct-nameserver": [
-      "https://doh.pub/dns-query",
-      "https://dns.alidns.com/dns-query"
-    ],
-    "direct-nameserver-follow-policy": false,
-
-    fallback: []
-  };
+  // 不创建或修改 config.dns；仅传入节点时，不会自动获取机场的 DNS 配置。
 
   var proxyGroups = [];
 

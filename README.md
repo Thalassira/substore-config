@@ -30,6 +30,8 @@ https://raw.githubusercontent.com/love-iu520/substore-config/main/scripts/mihomo
 
 > 不要使用 GitHub 文件浏览页地址；Sub-Store 需要的是上面的 `raw.githubusercontent.com` 原始文件地址。
 
+私用版本 `scripts/mihomo-clash-party-preserve-dns.js` 保留已有 `config.dns`；没有 DNS 且节点服务器属于 `quandao.com` 或 `jiandaoyun.com` 时，自动补充狗狗加速专用 DNS。它包含账号专用地址，仅用于 Sub-Store 的本地内容，不应公开提交或上传。已有 DNS 不会自动合并或修正。其余处理与桌面版一致，仍保留原版的 TUN、DNS 劫持和顶层 IPv6 设置。该副本的内嵌图标不会由现有同步入口自动更新。
+
 ### 2. 机场入口与住宅节点
 
 只有订阅中存在名称含“住宅”、类型为 SOCKS 或 SOCKS5 的节点时，脚本才会创建“机场入口”。住宅节点会自动设置 `dialer-proxy: 机场入口`。
@@ -46,6 +48,7 @@ https://raw.githubusercontent.com/love-iu520/substore-config/main/scripts/mihomo
 | 路径 | 作用 |
 |---|---|
 | `scripts/mihomo-clash-party.js` | Sub-Store 后处理主脚本，也是实际发布给客户端的文件 |
+| `scripts/mihomo-clash-party-preserve-dns.js` | 私用桌面版：保留已有 DNS，无 DNS 时为狗狗加速节点补充专用解析 |
 | `icons/` | 策略组 PNG 图标源文件 |
 | `sync-icons.py` | Python 图标同步脚本 |
 | `sync-icons.js` | Node.js 图标同步脚本，作为 Python 不可用时的替代入口 |
